@@ -5,7 +5,7 @@ MySQL 엔진은 클라이언트로 부터 접속 및 쿼리 요청을 처리하�
 MySQL 은 표준 SQL(ANSI SQL) 문법을 지원하기 때문에 표준 문법에 따라 작성된 다른 DBMS에서 사용하는 쿼리도 호환되어 실행 할 수 있습니다
 
 
-스토리지 엔진
+## 스토리지 엔진
 
 실제 데이터를 디스크 스토리지에 저장하거나 디스크 스토리지로 부터 데이터를 읽어오는 부분을 스토리지 엔진이 담당 합니다.
 
@@ -19,7 +19,7 @@ SQL> create table tb_test(col1 int, col2 varchar(100)) ENGINE=InnoDB;
 각 스토리지 엔진은 성능 향상을 위해서 각각의 다른 형태의 캐시 기능을 내장하고 있습니다.
 
 
-핸들러 API
+## 핸들러 API
 
 MySQL 엔진의 쿼리 실행기에서 데이터를 쓰거나 읽거나 할 때는 각 스토리지 엔진에 쓰기 또는 읽기를 요청 하게 되며, 이러한 요청을 핸들러(Handler) 요청이라고 하고, 여기서 사용 되는 API를 핸들러 API 라고 합니다.
 
@@ -27,4 +27,18 @@ InnoDB 스토리지 엔진도 핸들러 API 를 이용해 MySQL 엔진과 데이
 이러한 핸들러 사용에 대한 정보는 아래 명령어로 확인 할 수 있습니다.
 
 SQL> show global status like '%Handler%';
-        
+
+
+## MySQL 스레딩 구조
+MySQL 서버는 프로세스 기반이 아닌 스레드 기반으로 동작합니다.
+그래서 크게 포그라운드 스레드와 백그라운드 스레드로 구분 할 수 있습니다.
+
+MySQL 서버에서 실행 중인 스레드의 목록은 performance_schema 데이터베이스의 threads 테이블을 통해 확인 할 수 있습니다
+
+SQL> select thread_id, name,type, processlist_user,processlist_host
+from performance_schema.threads
+order by type, thread_id;
+
+확인되는 여러개의 스레드 중에서 'thread/sql/one_connection' 스레드가 실제 사용자의 요청을 처리 하는 포그라운드 스레드 입니다.
+
+백그라운드  스레드 개수는 MySQL 서버의 설정에 따라서 내용과 수는 가변적이며, 동일한 이름의 스레드가 2개 이상 보이는 것은 여러개 스레드가 동일 작업을 병렬로 처리하는 경우 입니다.        
