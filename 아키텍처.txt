@@ -1,6 +1,6 @@
 # MySQL 서버 주요 구성 요소
 <img width="80%" src="https://user-images.githubusercontent.com/43127088/108531720-5bb71080-731a-11eb-8b51-288f49a4a600.PNG"/>
-
+https://user-images.githubusercontent.com/43127088/108531720-5bb71080-731a-11eb-8b51-288f49a4a600.PNG
 ## MySQL 엔진
 
 MySQL 엔진은 클라이언트로 부터 접속 및 쿼리 요청을 처리하는 커넥션 핸들러와 SQL 파서 및 전처리기, 쿼리의 최적화된 실행을 위한 옵티마이저가 중심으로 이루어져 있습니다.
